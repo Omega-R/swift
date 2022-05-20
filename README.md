@@ -669,50 +669,25 @@ _You can enable the following settings in Xcode by running [this script](resourc
     & CivilizationServiceProviding
   ```
 
-* <a id='multi-line-conditions'></a>(<a href='#multi-line-conditions'>link</a>) **Multi-line conditional statements should break after the leading keyword.** Indent each individual statement by [2 spaces](https://github.com/airbnb/swift#spaces-over-tabs). [![SwiftFormat: wrapArguments](https://img.shields.io/badge/SwiftFormat-wrapArguments-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#wrapArguments)
+* <a id='multi-line-conditions'></a>(<a href='#multi-line-conditions'>link</a>) **Multi-line conditional statements should break after the first condition.** Prefer using local constants or other mitigation techniques to avoid multi-line predicates where possible. [![SwiftFormat: wrapArguments](https://img.shields.io/badge/SwiftFormat-wrapArguments-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#wrapArguments)
 
   <details>
 
-  #### Why?
-  Breaking after the leading keyword resets indentation to the standard [2-space grid](https://github.com/airbnb/swift#spaces-over-tabs),
-  which helps avoid fighting Xcode's <kbd>^</kbd> + <kbd>I</kbd> indentation behavior.
-
   ```swift
   // WRONG
-  if let galaxy = galaxy,
-    galaxy.name == "Milky Way" // Indenting by two spaces fights Xcode's ^+I indentation behavior
-  { … }
-
-  // WRONG
-  guard let galaxy = galaxy,
-        galaxy.name == "Milky Way" // Variable width indentation (6 spaces)
-  else { … }
-
-  // WRONG
-  guard let earth = unvierse.find(
-    .planet,
-    named: "Earth"),
-    earth.isHabitable // Blends in with previous condition's method arguments
-  else { … }
-
-  // RIGHT
-  if
-    let galaxy = galaxy,
-    galaxy.name == "Milky Way"
-  { … }
-
-  // RIGHT
-  guard
-    let galaxy = galaxy,
-    galaxy.name == "Milky Way"
-  else { … }
-
-  // RIGHT
-  guard
-    let earth = unvierse.find(
+  guard let earth = universe.find(
       .planet,
       named: "Earth"),
-    earth.isHabitable
+        earth.isHabitable // Strange indentation with previous line
+  else { … }
+
+  // RIGHT
+  let earth = universe.find(
+    .planet,
+    named: "Earth")
+
+  guard let earth = earth,
+      earth.isHabitable
   else { … }
 
   // RIGHT
