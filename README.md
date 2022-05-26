@@ -1,4 +1,4 @@
-# Airbnb Swift Style Guide
+# Omega Swift Style Guide
 
 ## Goals
 
@@ -50,7 +50,7 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   </details>
 
-* <a id='spaces-over-tabs'></a>(<a href='#spaces-over-tabs'>link</a>) **Use 2 spaces to indent lines.** [![SwiftFormat: indent](https://img.shields.io/badge/SwiftFormat-indent-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#indent)
+* <a id='spaces-over-tabs'></a>(<a href='#spaces-over-tabs'>link</a>) **Use 4 spaces to indent lines.** [![SwiftFormat: indent](https://img.shields.io/badge/SwiftFormat-indent-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#indent)
 
 * <a id='trailing-whitespace'></a>(<a href='#trailing-whitespace'>link</a>) **Trim trailing whitespace in all lines.** [![SwiftFormat: trailingSpace](https://img.shields.io/badge/SwiftFormat-trailingSpace-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#trailingSpace)
 
@@ -64,78 +64,28 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   ```swift
   protocol SpaceThing {
-    // ...
+      // ...
   }
 
   class SpaceFleet: SpaceThing {
 
     enum Formation {
-      // ...
+        // ...
     }
 
     class Spaceship {
-      // ...
+        // ...
     }
 
     var ships: [Spaceship] = []
     static let worldName: String = "Earth"
 
     func addShip(_ ship: Spaceship) {
-      // ...
+        // ...
     }
   }
 
   let myFleet = SpaceFleet()
-  ```
-
-  </details>
-
-  _Exception: You may prefix a private property with an underscore if it is backing an identically-named property or method with a higher access level_
-
-  <details>
-
-  #### Why?
-  There are specific scenarios where a backing a property or method could be easier to read than using a more descriptive name.
-
-  - Type erasure
-
-  ```swift
-  public final class AnyRequester<ModelType>: Requester {
-
-    public init<T: Requester>(_ requester: T) where T.ModelType == ModelType {
-      _executeRequest = requester.executeRequest
-    }
-
-    @discardableResult
-    public func executeRequest(
-      _ request: URLRequest,
-      onSuccess: @escaping (ModelType, Bool) -> Void,
-      onFailure: @escaping (Error) -> Void)
-      -> URLSessionCancellable
-    {
-      return _executeRequest(request, session, parser, onSuccess, onFailure)
-    }
-
-    private let _executeRequest: (
-      URLRequest,
-      @escaping (ModelType, Bool) -> Void,
-      @escaping (NSError) -> Void)
-      -> URLSessionCancellable
-
-  }
-  ```
-
-  - Backing a less specific type with a more specific type
-
-  ```swift
-  final class ExperiencesViewController: UIViewController {
-    // We can't name this view since UIViewController has a view: UIView property.
-    private lazy var _view = CustomView()
-
-    loadView() {
-      self.view = _view
-    }
-  }
   ```
 
   </details>
@@ -150,13 +100,13 @@ _You can enable the following settings in Xcode by running [this script](resourc
   // WRONG
   class UrlValidator {
 
-    func isValidUrl(_ URL: URL) -> Bool {
-      // ...
-    }
+      func isValidUrl(_ URL: URL) -> Bool {
+          // ...
+      }
 
-    func isProfileUrl(_ URL: URL, for userId: String) -> Bool {
-      // ...
-    }
+      func isProfileUrl(_ URL: URL, for userId: String) -> Bool {
+          // ...
+      }
   }
 
   let URLValidator = UrlValidator()
@@ -165,13 +115,13 @@ _You can enable the following settings in Xcode by running [this script](resourc
   // RIGHT
   class URLValidator {
 
-    func isValidURL(_ url: URL) -> Bool {
-      // ...
-    }
+      func isValidURL(_ url: URL) -> Bool {
+          // ...
+      }
 
-    func isProfileURL(_ url: URL, for userID: String) -> Bool {
-      // ...
-    }
+      func isProfileURL(_ url: URL, for userID: String) -> Bool {
+          // ...
+      }
   }
 
   let urlValidator = URLValidator()
@@ -216,38 +166,6 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   </details>
 
-* <a id='past-tense-events'></a>(<a href='#past-tense-events'>link</a>) **Event-handling functions should be named like past-tense sentences.** The subject can be omitted if it's not needed for clarity.
-
-  <details>
-
-  ```swift
-  // WRONG
-  class ExperiencesViewController {
-
-    private func handleBookButtonTap() {
-      // ...
-    }
-
-    private func modelChanged() {
-      // ...
-    }
-  }
-
-  // RIGHT
-  class ExperiencesViewController {
-
-    private func didTapBookButton() {
-      // ...
-    }
-
-    private func modelDidChange() {
-      // ...
-    }
-  }
-  ```
-
-  </details>
-
 * <a id='avoid-class-prefixes'></a>(<a href='#avoid-class-prefixes'>link</a>) **Avoid Objective-C-style acronym prefixes.** This is no longer needed to avoid naming conflicts in Swift.
 
   <details>
@@ -255,12 +173,12 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   // WRONG
   class AIRAccount {
-    // ...
+      // ...
   }
 
   // RIGHT
   class Account {
-    // ...
+      // ...
   }
   ```
 
@@ -314,32 +232,32 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   final class Listing {
 
-    init(capacity: Int, allowsPets: Bool) {
-      // WRONG
-      self.capacity = capacity
-      self.isFamilyFriendly = !allowsPets // `self.` not required here
+      init(capacity: Int, allowsPets: Bool) {
+          // WRONG
+          self.capacity = capacity
+          self.isFamilyFriendly = !allowsPets // `self.` not required here
 
-      // RIGHT
-      self.capacity = capacity
-      isFamilyFriendly = !allowsPets
-    }
+          // RIGHT
+          self.capacity = capacity
+          isFamilyFriendly = !allowsPets
+      }
 
-    private let isFamilyFriendly: Bool
-    private var capacity: Int
+      private let isFamilyFriendly: Bool
+      private var capacity: Int
 
-    private func increaseCapacity(by amount: Int) {
-      // WRONG
-      self.capacity += amount
+      private func increaseCapacity(by amount: Int) {
+          // WRONG
+          self.capacity += amount
 
-      // RIGHT
-      capacity += amount
+          // RIGHT
+          capacity += amount
 
-      // WRONG
-      self.save()
+          // WRONG
+          self.save()
 
-      // RIGHT
-      save()
-    }
+          // RIGHT
+          save()
+       }
   }
   ```
 
@@ -353,47 +271,47 @@ _You can enable the following settings in Xcode by running [this script](resourc
   //WRONG
   class MyClass {
 
-    func request(completion: () -> Void) {
-      API.request() { [weak self] response in
-        guard let strongSelf = self else { return }
-        // Do work
-        completion()
+      func request(completion: () -> Void) {
+          API.request() { [weak self] response in
+              guard let strongSelf = self else { return }
+              // Do work
+              completion()
+          }
       }
-    }
   }
 
   // RIGHT
   class MyClass {
 
-    func request(completion: () -> Void) {
-      API.request() { [weak self] response in
-        guard let self = self else { return }
-        // Do work
-        completion()
+      func request(completion: () -> Void) {
+          API.request() { [weak self] response in
+              guard let self = self else { return }
+              // Do work
+              completion()
+          }
       }
-    }
   }
   ```
 
   </details>
 
-* <a id='trailing-comma-array'></a>(<a href='#trailing-comma-array'>link</a>) **Add a trailing comma on the last element of a multi-line array.** [![SwiftFormat: trailingCommas](https://img.shields.io/badge/SwiftFormat-trailingCommas-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#trailingCommas)
+* <a id='trailing-comma-array'></a>(<a href='#trailing-comma-array'>link</a>) **Not add a trailing comma on the last element of a multi-line array.** [![SwiftFormat: trailingCommas](https://img.shields.io/badge/SwiftFormat-trailingCommas-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#trailingCommas)
 
   <details>
 
   ```swift
   // WRONG
   let rowContent = [
-    listingUrgencyDatesRowContent(),
-    listingUrgencyBookedRowContent(),
-    listingUrgencyBookedShortRowContent()
+      listingUrgencyDatesRowContent(),
+      listingUrgencyBookedRowContent(),
+      listingUrgencyBookedShortRowContent(),
   ]
 
   // RIGHT
   let rowContent = [
-    listingUrgencyDatesRowContent(),
-    listingUrgencyBookedRowContent(),
-    listingUrgencyBookedShortRowContent(),
+      listingUrgencyDatesRowContent(),
+      listingUrgencyBookedRowContent(),
+      listingUrgencyBookedShortRowContent()
   ]
   ```
 
@@ -406,21 +324,21 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   // WRONG
   func whatever() -> (Int, Int) {
-    return (4, 4)
+      return (4, 4)
   }
   let thing = whatever()
   print(thing.0)
 
   // RIGHT
   func whatever() -> (x: Int, y: Int) {
-    return (x: 4, y: 4)
+      return (x: 4, y: 4)
   }
 
   // THIS IS ALSO OKAY
   func whatever2() -> (x: Int, y: Int) {
-    let x = 4
-    let y = 4
-    return (x, y)
+      let x = 4
+      let y = 4
+      return (x, y)
   }
 
   let coord = whatever()
@@ -445,12 +363,12 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   // WRONG
   class MyClass : SuperClass {
-    // ...
+      // ...
   }
 
   // RIGHT
   class MyClass: SuperClass {
-    // ...
+      // ...
   }
   ```
 
@@ -472,24 +390,24 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   // WRONG
   func doSomething()->String {
-    // ...
+      // ...
   }
 
   // RIGHT
   func doSomething() -> String {
-    // ...
+      // ...
   }
   ```
 
   ```swift
   // WRONG
   func doSomething(completion: ()->Void) {
-    // ...
+      // ...
   }
 
   // RIGHT
   func doSomething(completion: () -> Void) {
-    // ...
+      // ...
   }
   ```
 
@@ -525,7 +443,7 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   switch animal {
   case .dog(_, _, _):
-    ...
+      ...
   }
 
   // RIGHT
@@ -533,7 +451,7 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   switch animal {
   case .dog:
-    ...
+      ...
   }
   ```
 
@@ -547,27 +465,27 @@ _You can enable the following settings in Xcode by running [this script](resourc
     // WRONG
     switch result {
     case let .success(value):
-      // ...
+        // ...
     case let .error(errorCode, errorReason):
-      // ...
+        // ...
     }
 
     // WRONG
     guard let case .success(value) else {
-      return
+        return
     }
 
     // RIGHT
     switch result {
     case .success(let value):
-      // ...
+        // ...
     case .error(let errorCode, let errorReason):
-      // ...
+        // ...
     }
 
     // RIGHT
     guard case .success(let value) else {
-      return
+        return
     }
     ```
 
@@ -617,7 +535,7 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   </details>
 
-* <a id='multi-line-array'></a>(<a href='#multi-line-array'>link</a>) **Multi-line arrays should have each bracket on a separate line.** Put the opening and closing brackets on separate lines from any of the elements of the array. Also add a trailing comma on the last element. [![SwiftFormat: wrapArguments](https://img.shields.io/badge/SwiftFormat-wrapArguments-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#wrapArguments)
+* <a id='multi-line-array'></a>(<a href='#multi-line-array'>link</a>) **Multi-line arrays should have each bracket on a separate line.** Put the opening and closing brackets on separate lines from any of the elements of the array. [![SwiftFormat: wrapArguments](https://img.shields.io/badge/SwiftFormat-wrapArguments-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#wrapArguments)
 
   <details>
 
@@ -627,17 +545,11 @@ _You can enable the following settings in Xcode by running [this script](resourc
                     listingUrgencyBookedRowContent(),
                     listingUrgencyBookedShortRowContent()]
 
-  let rowContent = [
-    listingUrgencyDatesRowContent(),
-    listingUrgencyBookedRowContent(),
-    listingUrgencyBookedShortRowContent()
-  ]
-
   // RIGHT
   let rowContent = [
-    listingUrgencyDatesRowContent(),
-    listingUrgencyBookedRowContent(),
-    listingUrgencyBookedShortRowContent(),
+      listingUrgencyDatesRowContent(),
+      listingUrgencyBookedRowContent(),
+      listingUrgencyBookedShortRowContent()
   ]
   ```
 
@@ -655,18 +567,18 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   // WRONG (unbalanced)
   public typealias Dependencies = UniverseBuilderProviding
-    & LawsOfPhysicsProviding
-    & UniverseSimulatorServiceProviding
-    & PlanetBuilderProviding
-    & CivilizationServiceProviding
+      & LawsOfPhysicsProviding
+      & UniverseSimulatorServiceProviding
+      & PlanetBuilderProviding
+      & CivilizationServiceProviding
 
   // RIGHT
   public typealias Dependencies
-    = UniverseBuilderProviding
-    & LawsOfPhysicsProviding
-    & UniverseSimulatorServiceProviding
-    & PlanetBuilderProviding
-    & CivilizationServiceProviding
+      = UniverseBuilderProviding
+      & LawsOfPhysicsProviding
+      & UniverseSimulatorServiceProviding
+      & PlanetBuilderProviding
+      & CivilizationServiceProviding
   ```
 
 * <a id='multi-line-conditions'></a>(<a href='#multi-line-conditions'>link</a>) **Multi-line conditional statements should break after the first condition.** Prefer using local constants or other mitigation techniques to avoid multi-line predicates where possible. [![SwiftFormat: wrapArguments](https://img.shields.io/badge/SwiftFormat-wrapArguments-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#wrapArguments)
@@ -683,8 +595,8 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   // RIGHT
   let earth = universe.find(
-    .planet,
-    named: "Earth")
+      .planet,
+      named: "Earth")
 
   guard let earth = earth,
       earth.isHabitable
@@ -714,24 +626,24 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   // RIGHT
   var spaceQuote = """
-    “Space,” it says, “is big. Really big. You just won’t believe how vastly, hugely, mindbogglingly big it is.
-    I mean, you may think it’s a long way down the road to the chemist’s, but that’s just peanuts to space.”
-    """
+      “Space,” it says, “is big. Really big. You just won’t believe how vastly, hugely, mindbogglingly big it is.
+      I mean, you may think it’s a long way down the road to the chemist’s, but that’s just peanuts to space.”
+      """
 
   // WRONG
   var universeQuote: String {
-    """
-      In the beginning the Universe was created.
-      This has made a lot of people very angry and been widely regarded as a bad move.
       """
+        In the beginning the Universe was created.
+        This has made a lot of people very angry and been widely regarded as a bad move.
+        """
   }
 
   // RIGHT
   var universeQuote: String {
-    """
-    In the beginning the Universe was created.
-    This has made a lot of people very angry and been widely regarded as a bad move.
-    """
+      """
+      In the beginning the Universe was created.
+      This has made a lot of people very angry and been widely regarded as a bad move.
+      """
   }
   ```
 
@@ -791,28 +703,28 @@ _You can enable the following settings in Xcode by running [this script](resourc
   // WRONG
   if !planet.isHabitable
   {
-    planet.terraform()
+      planet.terraform()
   }
 
   class Planet
   {
-    func terraform()
-    {
-      generateAtmosphere()
-      generateOceans()
-    }
+      func terraform()
+      {
+          generateAtmosphere()
+          generateOceans()
+      }
   }
 
   // RIGHT
   if !planet.isHabitable {
-    planet.terraform()
+      planet.terraform()
   }
 
   class Planet {
-    func terraform() {
-      generateAtmosphere()
-      generateOceans()
-    }
+      func terraform() {
+          generateAtmosphere()
+          generateOceans()
+      }
   }
   ```
 
@@ -824,36 +736,34 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   ```swift
   // WRONG
-  if
-    let star = planet.nearestStar(),
-    planet.isInHabitableZone(of: star) {
-    planet.terraform()
+  if let star = planet.nearestStar(),
+     planet.isInHabitableZone(of: star) {
+      planet.terraform()
   }
 
   class Planet {
-    func terraform(
-      atmosphereOptions: AtmosphereOptions = .default,
-      oceanOptions: OceanOptions = .default) {
-      generateAtmosphere(atmosphereOptions)
-      generateOceans(oceanOptions)
-    }
+      func terraform(
+          atmosphereOptions: AtmosphereOptions = .default,
+          oceanOptions: OceanOptions = .default) {
+          generateAtmosphere(atmosphereOptions)
+          generateOceans(oceanOptions)
+      }
   }
 
   // RIGHT
-  if
-    let star = planet.nearestStar(),
-    planet.isInHabitableZone(of: star)
+  if let star = planet.nearestStar(),
+     planet.isInHabitableZone(of: star)
   {
-    planet.terraform()
+     planet.terraform()
   }
 
   class Planet {
     func terraform(
-      atmosphereOptions: AtmosphereOptions = .default,
-      oceanOptions: OceanOptions = .default) 
+        atmosphereOptions: AtmosphereOptions = .default,
+        oceanOptions: OceanOptions = .default) 
     {
-      generateAtmosphere(atmosphereOptions)
-      generateOceans(oceanOptions)
+        generateAtmosphere(atmosphereOptions)
+        generateOceans(oceanOptions)
     }
   }
   ```
@@ -867,76 +777,26 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   // WRONG
   struct Planet{
-    …
+      …
   }
 
   // WRONG
   if condition{
-    …
+      …
   }else{
-    …
+      …
   }
 
   // RIGHT
   struct Planet {
-    …
+      …
   }
 
   // RIGHT
   if condition {
-    …
+      …
   } else {
-    …
-  }
-  ```
-
-  </details>
-
-* <a id='single-line-comments'></a>(<a href='#single-line-comments'>link</a>) **Comment blocks should use single-line comments (`//` for code comments and `///` for documentation comments)**, rather than multi-line comments (`/* ... */` and `/** ... */`). [![SwiftFormat: blockComments](https://img.shields.io/badge/SwiftFormat-blockComments-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#blockComments)
-
-  <details>
-
-  ```swift
-  // WRONG
-
-  /**
-  * A planet that exists somewhere in the universe.
-  *
-  * Planets have many properties. For example, the best planets
-  * have atmospheres and bodies of water to support life.
-  */
-  class Planet {
-    /**
-      Terraforms the planet, by adding an atmosphere and ocean that is hospitable for life.
-    */
-    func terraform() {
-      /* 
-      Generate the atmosphere first, before generating the ocean.
-      Otherwise, the water will just boil off immediately.
-      */
-      generateAtmosphere()
-
-      /* Now that we have an atmosphere, it's safe to generate the ocean */
-      generateOceans()
-    }
-  }
-
-  // RIGHT
-
-  /// A planet that exists somewhere in the universe.
-  ///
-  /// Planets have many properties. For example, the best planets
-  /// have atmospheres and bodies of water to support life.
-  class Planet {
-    /// Terraforms the planet, by adding an atmosphere and ocean that is hospitable for life.
-    func terraform() {
-      // Generate the atmosphere first, before generating the ocean.
-      // Otherwise, the water will just boil off immediately.
-      generateAtmosphere()
-
-      // Now that we have an atmosphere, it's safe to generate the ocean
-      generateOceans()
-    }
+      …
   }
   ```
 
@@ -951,12 +811,12 @@ _You can enable the following settings in Xcode by running [this script](resourc
   ```swift
   // WRONG
   func doSomething() -> Void {
-    ...
+      ...
   }
 
   // RIGHT
   func doSomething() {
-    ...
+      ...
   }
   ```
 
@@ -971,7 +831,7 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
     // WRONG
     func generateStars(at location: Point, count: Int, color: StarColor, withAverageDistance averageDistance: Float) -> String {
-      // This is too long and will probably auto-wrap in a weird way
+        // This is too long and will probably auto-wrap in a weird way
     }
 
     // WRONG
@@ -980,48 +840,48 @@ _You can enable the following settings in Xcode by running [this script](resourc
                        color: StarColor,
                        withAverageDistance averageDistance: Float) -> String
     {
-      // Xcode indents all the arguments
+        // Xcode indents all the arguments
     }
 
     // WRONG
     func generateStars(
-      at location: Point,
-      count: Int,
-      color: StarColor,
-      withAverageDistance averageDistance: Float) -> String {
-      populateUniverse() // this line blends in with the argument list
+        at location: Point,
+        count: Int,
+        color: StarColor,
+        withAverageDistance averageDistance: Float) -> String {
+        populateUniverse() // this line blends in with the argument list
     }
 
     // WRONG
     func generateStars(
-      at location: Point,
-      count: Int,
-      color: StarColor,
-      withAverageDistance averageDistance: Float) throws
-      -> String {
-      populateUniverse() // this line blends in with the argument list
+        at location: Point,
+        count: Int,
+        color: StarColor,
+        withAverageDistance averageDistance: Float) throws
+        -> String {
+        populateUniverse() // this line blends in with the argument list
     }
 
     // RIGHT
     func generateStars(
-      at location: Point,
-      count: Int,
-      color: StarColor,
-      withAverageDistance averageDistance: Float)
-      -> String
+        at location: Point,
+        count: Int,
+        color: StarColor,
+        withAverageDistance averageDistance: Float)
+        -> String
     {
-      populateUniverse()
+        populateUniverse()
     }
 
     // RIGHT
     func generateStars(
-      at location: Point,
-      count: Int,
-      color: StarColor,
-      withAverageDistance averageDistance: Float)
-      throws -> String
+        at location: Point,
+        count: Int,
+        color: StarColor,
+        withAverageDistance averageDistance: Float)
+        throws -> String
     {
-      populateUniverse()
+        populateUniverse()
     }
   }
   ```
@@ -1044,29 +904,29 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   // WRONG
   universe.generateStars(
-    at: location,
-    count: 5,
-    color: starColor,
-    withAverageDistance: 4
+      at: location,
+      count: 5,
+      color: starColor,
+      withAverageDistance: 4
   )
 
   // WRONG
   universe.generate(5,
-    .stars,
-    at: location)
+      .stars,
+      at: location)
 
   // RIGHT
   universe.generateStars(
-    at: location,
-    count: 5,
-    color: starColor,
-    withAverageDistance: 4)
+      at: location,
+      count: 5,
+      color: starColor,
+      withAverageDistance: 4)
 
   // RIGHT
   universe.generate(
-    5,
-    .stars,
-    at: location)
+      5,
+      .stars,
+      at: location)
   ```
 
   </details>
@@ -1736,33 +1596,6 @@ _You can enable the following settings in Xcode by running [this script](resourc
 
   </details>
 
-* <a id='switch-never-default'></a>(<a href='#switch-never-default'>link</a>) **Never use the `default` case when `switch`ing over an enum.**
-
-  <details>
-
-  #### Why?
-  Enumerating every case requires developers and reviewers have to consider the correctness of every switch statement when new cases are added.
-
-  ```swift
-  // WRONG
-  switch anEnum {
-  case .a:
-    // Do something
-  default:
-    // Do something else.
-  }
-
-  // RIGHT
-  switch anEnum {
-  case .a:
-    // Do something
-  case .b, .c:
-    // Do something else.
-  }
-  ```
-
-  </details>
-
 * <a id='optional-nil-check'></a>(<a href='#optional-nil-check'>link</a>) **Check for nil rather than using optional binding if you don't need to use the value.** [![SwiftLint: unused_optional_binding](https://img.shields.io/badge/SwiftLint-unused_optional_binding-007A87.svg)](https://realm.github.io/SwiftLint/unused_optional_binding)
 
   <details>
@@ -1843,54 +1676,6 @@ _You can enable the following settings in Xcode by running [this script](resourc
   // RIGHT
   protocol Foo: AnyObject {}
   ```
-
-  </details>
-
-* <a id='extension-access-control'></a>(<a href='#extension-access-control'>link</a>) **Specify the access control for each declaration in an extension individually.** [![SwiftFormat: extensionAccessControl](https://img.shields.io/badge/SwiftFormat-extensionAccessControl-7B0051.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#extensionaccesscontrol)
-
-  <details>
-
-  #### Why?
-
-  Specifying the access control on the declaration itself helps engineers more quickly determine the access control level of an individual declaration.
-
-  ```swift
-  // WRONG
-  public extension Universe {
-    // This declaration doesn't have an explicit access control level.
-    // In all other scopes, this would be an internal function,
-    // but because this is in a public extension, it's actually a public function.
-    func generateGalaxy() { }
-  }
-
-  // WRONG
-  private extension Spaceship {
-    func enableHyperdrive() { }
-  }
-
-  // RIGHT
-  extension Universe {
-    // It is immediately obvious that this is a public function,
-    // even if the start of the `extension Universe` scope is off-screen.
-    public func generateGalaxy() { }
-  }
-
-  // RIGHT
-  extension Spaceship {
-    // Recall that a private extension actually has fileprivate semantics,
-    // so a declaration in a private extension is fileprivate by default.
-    fileprivate func enableHyperdrive() { }
-  }
-  ```
-
-  </details>
-
-* <a id='no-direct-standard-out-logs'></a>(<a href='#no-direct-standard-out-logs'>link</a>) **Prefer dedicated logging systems like [`os_log`](https://developer.apple.com/documentation/os/logging) or [`swift-log`](https://github.com/apple/swift-log) over writing directly to standard out using `print(…)`, `debugPrint(…)`, or `dump(…)`.**
-
-  <details>
-
-  #### Why?
-  All log messages should flow into intermediate logging systems that can direct messages to the correct destination(s) and potentially filter messages based on the app's environment or configuration. `print(…)`, `debugPrint(…)`, or `dump(…)` will write all messages directly to standard out in all app configurations and can potentially leak personally identifiable information (PII).
 
   </details>
 
@@ -2096,33 +1881,6 @@ _You can enable the following settings in Xcode by running [this script](resourc
       …
     }
   }
-  ```
-
-  </details>
-
-
-* <a id='mark-types-and-extensions'></a>(<a href='#mark-types-and-extensions'>link</a>) **Each type and extension which implements a conformance should be preceded by a `MARK` comment.** [![SwiftFormat: markTypes](https://img.shields.io/badge/SwiftFormat-markTypes-008489.svg)](https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md#markTypes)
-  * Types should be preceded by a `// MARK: - TypeName` comment.
-  * Extensions that add a conformance should be preceded by a `// MARK: - TypeName + ProtocolName` comment.
-  * Extensions that immediately follow the type being extended should omit that type's name and instead use `// MARK: ProtocolName`.
-  * If there is only one type or extension in a file, the `MARK` comment can be omitted.
-  * If the extension in question is empty (e.g. has no declarations in its body), the `MARK` comment can be omitted.
-  * For extensions that do not add new conformances, consider adding a `MARK` with a descriptive comment.
-
-  <details>
-
-  ```swift
-  // MARK: - GalaxyView
-
-  final class GalaxyView: UIView { … }
-
-  // MARK: ContentConfigurableView
-
-  extension GalaxyView: ContentConfigurableView { … }
-
-  // MARK: - Galaxy + SpaceThing, NamedObject
-
-  extension Galaxy: SpaceThing, NamedObject { … }
   ```
 
   </details>
